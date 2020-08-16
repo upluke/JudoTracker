@@ -18,8 +18,14 @@ mongoose.connect(uri, {
 });
 const connection = mongoose.connection;
 connection.once("open", () => {
-  console.log("MongoDB (judo's) database connection established successfully!");
+  console.log("MongoDB (judo) database connection established successfully!");
 });
+
+const exercisesRouter = require("./routes/exercises");
+const usersRouter = require("./routes/users");
+
+app.use("/exercises", exercisesRouter);
+app.use("/users", usersRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on judo port: ${port}`);

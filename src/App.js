@@ -8,6 +8,7 @@ import CreateExercise from "./components/create-exercise";
 import CreateUser from "./components/create-user";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
+
 function App() {
   return (
     <Router>

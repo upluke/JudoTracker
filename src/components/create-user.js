@@ -2,6 +2,7 @@ import React from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,8 +23,10 @@ export default () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const display = state.username;
-    console.log("username: ", display);
+    const user = { username: state.username };
+    axios
+      .post("http://localhost:5000/users/add", user)
+      .then((res) => console.log(res.data));
     setState({ username: " " });
   };
 

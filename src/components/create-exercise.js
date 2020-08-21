@@ -5,6 +5,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,7 +32,15 @@ export default () => {
   });
 
   React.useEffect(() => {
-    setState({ users: ["test user"], username: "test user" });
+    // setState({ users: ["test user"], username: "test user" });
+    axios.get("http://localhost:5000/users").then((res) => {
+      if (res.data.length > 0) {
+        setState({
+          users: res.data.map((user) => user.username),
+          username: res.data[0].username,
+        });
+      }
+    });
   }, []);
 
   const handleChange = (e, name) => {
@@ -44,14 +53,17 @@ export default () => {
   const onSubmit = (e) => {
     console.log("inside");
     e.preventDefault();
-    const drills = {
+    const exercise = {
       username: state.username,
       description: state.description,
       duration: state.duration,
       date: state.date,
     };
-    console.log("drills: ", drills);
-    window.location = "/";
+    console.log("drills: ", exercise);
+    axios
+      .post("http://localhost:5000/exercises/add", exercise)
+      .then((res) => console.log(res.data));
+    // window.location = "/";
   };
 
   return (
@@ -109,7 +121,7 @@ export default () => {
         href="#contained-buttons"
         onClick={(e) => onSubmit(e)}
       >
-        Link
+        Submit
       </Button>
     </form>
   );

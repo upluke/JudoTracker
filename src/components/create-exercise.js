@@ -6,6 +6,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
+import moment from "moment";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,7 +33,7 @@ export default () => {
   });
 
   React.useEffect(() => {
-    // setState({ users: ["test user"], username: "test user" });
+    // setState({ users: ["test user"], username: "test user" }); default for testing
     axios.get("http://localhost:5000/users").then((res) => {
       if (res.data.length > 0) {
         setState({
@@ -59,7 +60,7 @@ export default () => {
       duration: state.duration,
       date: state.date,
     };
-    console.log("drills: ", exercise);
+
     axios
       .post("http://localhost:5000/exercises/add", exercise)
       .then((res) => console.log(res.data));
@@ -112,7 +113,7 @@ export default () => {
         InputLabelProps={{
           shrink: true,
         }}
-        value={state.date || "2020-08-17"}
+        value={moment(state.date).format("YYYY-MM-DD")}
         onChange={(e) => handleChange(e, "date")}
       />
       <Button

@@ -38,8 +38,6 @@ export default () => {
     setExercises(exercises.filter((el) => el._id !== id));
   };
 
-  console.log("from list: ", exercises);
-
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
@@ -54,7 +52,6 @@ export default () => {
         </TableHead>
         <TableBody>
           {exercises.map((currentExercise) => {
-            console.log("current: ", currentExercise);
             return (
               <MyTable
                 exercise={currentExercise}

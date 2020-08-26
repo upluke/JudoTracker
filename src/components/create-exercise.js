@@ -33,15 +33,22 @@ export default () => {
   });
 
   React.useEffect(() => {
-    // setState({ users: ["test user"], username: "test user" }); default for testing
-    axios.get("http://localhost:5000/users").then((res) => {
-      if (res.data.length > 0) {
-        setState({
-          users: res.data.map((user) => user.username),
-          username: res.data[0].username,
-        });
-      }
-    });
+    // axios.get("http://localhost:5000/users").then((res) => {
+    //   if (res.data.length > 0) {
+    //     setState({
+    //       users: res.data.map((user) => user.username),
+    //       username: res.data[0].username,
+    //     });
+    //   }
+    // });
+    async function fetchDate() {
+      const usersRes = await axios.get("http://localhost:5000/users");
+      const usersData = usersRes?.data;
+      const users = usersData?.map((user) => user.username);
+      const username = usersData[0].username;
+      setState({ users, username });
+    }
+    fetchDate();
   }, []);
 
   const handleChange = (e, name) => {
@@ -61,10 +68,10 @@ export default () => {
       date: state.date,
     };
 
-    axios
-      .post("http://localhost:5000/exercises/add", exercise)
-      .then((res) => console.log(res.data));
-    // window.location = "/";
+    axios.post("http://localhost:5000/exercises/add", exercise);
+    // .then((res) => console.log(res.data));
+
+    window.location = "/";
   };
 
   return (

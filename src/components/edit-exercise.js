@@ -64,7 +64,6 @@ export default () => {
     });
   };
   const onSubmit = (e) => {
-    console.log("inside");
     e.preventDefault();
     const exercise = {
       username: state.username,
@@ -72,9 +71,8 @@ export default () => {
       duration: state.duration,
       date: state.date,
     };
-    axios
-      .post("http://localhost:5000/exercises/update/" + id, exercise)
-      .then((res) => console.log(res.data));
+    axios.post("http://localhost:5000/exercises/update/" + id, exercise);
+    // .then((res) => console.log(res.data));
     // window.location = "/";
   };
 

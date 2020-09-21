@@ -32,30 +32,42 @@ export default () => {
     users: [],
   });
   let { id } = useParams();
-  // console.log("parapms: ", id);
+  console.log("parapms new: ", id);
+  let flagURL = window.location.href.slice(-3); //fetch url last three letters
 
   React.useEffect(() => {
-    async function fetchData() {
-      //fetch users
-      const usersRes = await axios.get("http://localhost:5000/users");
-      const usersData = usersRes?.data;
-      const users = usersData?.map((user) => user.username); //get usernames
-      //fetch specific exercise
-      const exerciseRes = await axios.get(
-        "http://localhost:5000/exercises/" + id
-      );
-      const exerciseData = exerciseRes?.data;
-      let { username, description, duration, date } = exerciseData;
-      setState({
-        users,
-        username,
-        description,
-        duration,
-        date: new Date(date),
-      });
+    if (flagURL !== "new") {
+      async function fetchDataEdit() {
+        //fetch users
+        const usersRes = await axios.get("http://localhost:5000/users");
+        const usersData = usersRes?.data;
+        const users = usersData?.map((user) => user.username); //get usernames
+        //fetch specific exercise
+        const exerciseRes = await axios.get(
+          "http://localhost:5000/exercises/" + id
+        );
+        const exerciseData = exerciseRes?.data;
+        let { username, description, duration, date } = exerciseData;
+        setState({
+          users,
+          username,
+          description,
+          duration,
+          date: new Date(date),
+        });
+      }
+      fetchDataEdit();
+    } else {
+      async function fetchDateCreate() {
+        const usersRes = await axios.get("http://localhost:5000/users");
+        const usersData = usersRes?.data;
+        const users = usersData?.map((user) => user.username);
+        const username = usersData[0].username;
+        setState({ users, username });
+      }
+      fetchDateCreate();
     }
-    fetchData();
-  }, [id]);
+  }, [flagURL, id]);
 
   const handleChange = (e, name) => {
     setState({

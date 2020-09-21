@@ -30,7 +30,7 @@ export default () => {
           centered
         >
           <Tab label="Drills" to="/" component={Link} />
-          <Tab label="Create Drill Log" to="/create" component={Link} />
+          <Tab label="Create Drill Log" to="/edit/new" component={Link} />
           <Tab label="Create User" to="/user" component={Link} />
         </Tabs>
       </AppBar>

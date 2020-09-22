@@ -83,9 +83,15 @@ export default () => {
       duration: state.duration,
       date: state.date,
     };
-    axios.post("http://localhost:5000/exercises/update/" + id, exercise);
+    if (flagURL === "new") {
+      axios.post("http://localhost:5000/exercises/add", exercise);
+      window.location = "/";
+    } else {
+      axios.post("http://localhost:5000/exercises/update/" + id, exercise);
+      window.location = "/";
+    }
+
     // .then((res) => console.log(res.data));
-    // window.location = "/";
   };
 
   return (
@@ -140,7 +146,7 @@ export default () => {
         href="#contained-buttons"
         onClick={(e) => onSubmit(e)}
       >
-        Edit Save
+        {flagURL === "new" ? "Create Save" : "Edit Save"}
       </Button>
     </form>
   );

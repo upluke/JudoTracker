@@ -32,17 +32,22 @@ export default () => {
     users: [],
   });
   let { id } = useParams();
-  console.log("parapms new: ", id);
-  let flagURL = window.location.href.slice(-3); //fetch url last three letters
+  const isCreateMode = id === "new";
+  // let flagURL = window.location.href.slice(-3); //fetch url last three letters
 
   React.useEffect(() => {
-    if (flagURL !== "new") {
-      async function fetchDataEdit() {
-        //fetch users
-        const usersRes = await axios.get("http://localhost:5000/users");
-        const usersData = usersRes?.data;
-        const users = usersData?.map((user) => user.username); //get usernames
-        //fetch specific exercise
+    // if (flagURL !== "new") {
+    async function fetchData() {
+      //fetch users
+      const usersRes = await axios.get("http://localhost:5000/users");
+      const usersData = usersRes?.data;
+      const users = usersData?.map((user) => user.username); //get usernames
+      //fetch specific exercise
+      if (isCreateMode) {
+        setState({
+          users,
+        });
+      } else {
         const exerciseRes = await axios.get(
           "http://localhost:5000/exercises/" + id
         );
@@ -56,18 +61,20 @@ export default () => {
           date: new Date(date),
         });
       }
-      fetchDataEdit();
-    } else {
-      async function fetchDateCreate() {
-        const usersRes = await axios.get("http://localhost:5000/users");
-        const usersData = usersRes?.data;
-        const users = usersData?.map((user) => user.username);
-        const username = usersData[0].username;
-        setState({ users, username });
-      }
-      fetchDateCreate();
     }
-  }, [flagURL, id]);
+    fetchData();
+    // fetchDataEdit();
+    // // } else {
+    //   async function fetchDateCreate() {
+    //     const usersRes = await axios.get("http://localhost:5000/users");
+    //     const usersData = usersRes?.data;
+    //     const users = usersData?.map((user) => user.username);
+    //     const username = usersData[0].username;
+    //     setState({ users, username });
+    //   // }
+    //   fetchDateCreate();
+    // }
+  }, [id, isCreateMode]);
 
   const handleChange = (e, name) => {
     setState({
@@ -83,7 +90,8 @@ export default () => {
       duration: state.duration,
       date: state.date,
     };
-    if (flagURL === "new") {
+    // if (flagURL === "new") {
+    if (isCreateMode) {
       axios.post("http://localhost:5000/exercises/add", exercise);
       window.location = "/";
     } else {
@@ -146,7 +154,7 @@ export default () => {
         href="#contained-buttons"
         onClick={(e) => onSubmit(e)}
       >
-        {flagURL === "new" ? "Create Save" : "Edit Save"}
+        {isCreateMode ? "Create Save" : "Edit Save"}
       </Button>
     </form>
   );

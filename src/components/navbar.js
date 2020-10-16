@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: "#206a5d",
   },
 }));
 
@@ -21,8 +21,8 @@ export default () => {
   };
 
   return (
-    <div className={classes.root}>
-      <AppBar position="static">
+    <div>
+      <AppBar position="static" className={classes.root}>
         <Tabs
           value={value}
           onChange={handleChange}
